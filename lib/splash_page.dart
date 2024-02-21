@@ -6,17 +6,17 @@ class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
   @override
-  _SplashPageState createState() => _SplashPageState();
+  SplashPageState createState() => SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
     return SplashScreen.navigate(
-      name: 'assets/cursor_tracking.riv',
-      next: (context) => LoginPage(),
-      until: () => Future.delayed(Duration(seconds: 2)),
+      name: 'assets/intro.riv',
+      next: (context) => const LoginPage(),
+      until: () => Future.delayed(const Duration(seconds: 2)),
       startAnimation: 'Landing',
     );
   }
