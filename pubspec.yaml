@@ -44,6 +44,8 @@ dependencies:
   meta: ^1.1.6
   font_awesome_flutter: ^10.7.0
   auth_buttons: ^3.0.2
+  bloc_concurrency: ^0.2.4
+  rxdart: ^0.27.7
 
 dev_dependencies:
   flutter_test:

@@ -1,18 +1,9 @@
 # flut_tube
+跟著it幫的[Flutter---Google推出的跨平台框架，Android、iOS一起搞定](https://ithelp.ithome.com.tw/users/20119550/ironman/2221)一起實作
+這個已經是3 4 年前的文章了 也遇到不少問題卡關
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-[findseat](https://github.com/KhoaSuperman/findseat)
+- flare_splash_screen 變成 rive_splash_screen
+- bloc 已更新過和以前不一樣
+    - BlocDelegate 變成 BlocObserver
+    - BlocSupervisor.delegate 變成 Bloc.observer
+    - Bloc.dispatch 變成 Bloc.add
