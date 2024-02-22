@@ -9,16 +9,14 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
 
-  final UserRepository? _userRepository;
+  final UserRepository _userRepository;
 
-  AuthenticationBloc(this._userRepository) : super(AuthenticationInitial()) {
+  AuthenticationBloc(this._userRepository) : super(Uninitialized()) {
     on<AuthenticationEvent>((event, emit) async {
       // TODO: implement event handler
       emit(await mapEventToState(event));
     });
   }
-  @override
-  AuthenticationState get initialState => Uninitialized();
 
 
    mapEventToState(AuthenticationEvent event,) async {
@@ -34,9 +32,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Future<AuthenticationState> _mapAppStartedToState() async {
     try {
-      final bool isSigned = await _userRepository?.isSignedIn() ?? false;
+      final bool isSigned = await _userRepository.isSignedIn();
       if (isSigned) {
-        final String? name = await _userRepository?.getUser() ?? "";
+        final String name = await _userRepository.getUser() ?? "";
         return Authenticated(name ?? "");
       }
       else{
@@ -48,11 +46,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<AuthenticationState> _mapLoggedInToState() async {
-    return Authenticated(await _userRepository?.getUser() ?? "");
+    return Authenticated(await _userRepository.getUser() ?? "");
   }
 
   Future<AuthenticationState> _mapLoggedOutToState()async  {
-    _userRepository?.signOut();
+    _userRepository.signOut();
     return Unauthenticated();
   }
 }

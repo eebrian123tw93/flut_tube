@@ -14,8 +14,8 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
-  UserRepository _userRepository;
-  
+  final UserRepository _userRepository;
+
   LoginBloc(this._userRepository) : super(LoginState.empty()) {
     on<EmailChanged>((event, emit) {
       state.update(isEmailValid: Validators.isValidEmail(event.email));
