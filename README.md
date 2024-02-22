@@ -7,3 +7,4 @@
     - BlocDelegate 變成 BlocObserver
     - BlocSupervisor.delegate 變成 Bloc.observer
     - Bloc.dispatch 變成 Bloc.add
+    - Bloc.mapEventToState 變成 Bloc.on
