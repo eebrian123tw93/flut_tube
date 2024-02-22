@@ -12,48 +12,47 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   final UserRepository? _userRepository;
 
   AuthenticationBloc(this._userRepository) : super(AuthenticationInitial()) {
-    on<AuthenticationEvent>((event, emit) {
+    on<AuthenticationEvent>((event, emit) async {
       // TODO: implement event handler
+      emit(await mapEventToState(event));
     });
   }
   @override
   AuthenticationState get initialState => Uninitialized();
 
-  @override
-  Stream<AuthenticationState> mapEventToState(
-      AuthenticationEvent event,
-      ) async* {
+
+   mapEventToState(AuthenticationEvent event,) async {
 
     if (event is AppStarted) {
-      yield* _mapAppStartedToState();
+      return await _mapAppStartedToState();
     } else if (event is LoggedIn) {
-      yield* _mapLoggedInToState();
+      return await _mapLoggedInToState();
     } else if (event is LoggedOut) {
-      yield* _mapLoggedOutToState();
+      return await _mapLoggedOutToState();
     }
   }
 
-  Stream<AuthenticationState> _mapAppStartedToState() async* {
+  Future<AuthenticationState> _mapAppStartedToState() async {
     try {
       final bool isSigned = await _userRepository?.isSignedIn() ?? false;
       if (isSigned) {
         final String? name = await _userRepository?.getUser() ?? "";
-        yield Authenticated(name ?? "");
+        return Authenticated(name ?? "");
       }
       else{
-        yield Unauthenticated();
+        return Unauthenticated();
       }
     } catch (_) {
-      yield Unauthenticated();
+      return Unauthenticated();
     }
   }
 
-  Stream<AuthenticationState> _mapLoggedInToState() async* {
-    yield Authenticated(await _userRepository?.getUser() ?? "");
+  Future<AuthenticationState> _mapLoggedInToState() async {
+    return Authenticated(await _userRepository?.getUser() ?? "");
   }
 
-  Stream<AuthenticationState> _mapLoggedOutToState() async* {
-    yield Unauthenticated();
+  Future<AuthenticationState> _mapLoggedOutToState()async  {
     _userRepository?.signOut();
+    return Unauthenticated();
   }
 }
