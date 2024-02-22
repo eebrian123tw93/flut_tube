@@ -9,7 +9,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
 
-  final UserRepository _userRepository;
+  final UserRepository? _userRepository;
 
   AuthenticationBloc(this._userRepository) : super(AuthenticationInitial()) {
     on<AuthenticationEvent>((event, emit) {
@@ -35,9 +35,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final bool isSigned = await _userRepository.isSignedIn();
+      final bool isSigned = await _userRepository?.isSignedIn() ?? false;
       if (isSigned) {
-        final String? name = await _userRepository.getUser();
+        final String? name = await _userRepository?.getUser() ?? "";
         yield Authenticated(name ?? "");
       }
       else{
@@ -49,11 +49,11 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
-    yield Authenticated(await _userRepository.getUser() ?? "");
+    yield Authenticated(await _userRepository?.getUser() ?? "");
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
     yield Unauthenticated();
-    _userRepository.signOut();
+    _userRepository?.signOut();
   }
 }

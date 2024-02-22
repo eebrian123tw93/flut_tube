@@ -12,17 +12,18 @@ class UserRepository {
 
   Future<User?> signInWithGoogle() async {
 
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-
-
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    await _firebaseAuth.signInWithCredential(credential);
-    return _firebaseAuth.currentUser;
+    // final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    // final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    //
+    //
+    //
+    // final AuthCredential credential = GoogleAuthProvider.credential(
+    //   accessToken: googleAuth?.accessToken,
+    //   idToken: googleAuth?.idToken,
+    // );
+    // await _firebaseAuth.signInWithCredential(credential);
+    // return _firebaseAuth.currentUser;
+    return null;
   }
 
   Future<void> signInWithCredentials(String email, String password) {

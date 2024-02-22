@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rive_splash_screen/rive_splash_screen.dart';
 import 'splash_page.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'simple_bloc_observer.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flut_tube/firebase/user_repository.dart';
@@ -10,8 +7,17 @@ import 'package:flut_tube/login/login_page.dart';
 import 'package:flut_tube/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+Future<void> main() async {
   Bloc.observer = SimpleBlocObserver();
+
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(MyApp());
 }
 
