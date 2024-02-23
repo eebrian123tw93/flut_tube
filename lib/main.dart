@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
               if (state is Authenticated){
                 return Container();
               }else if (state is Unauthenticated) {
-                return const LoginPage();
+                return LoginPage(_userRepository);
               }
               return const SplashPage();
             },
