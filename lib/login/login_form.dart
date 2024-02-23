@@ -51,7 +51,7 @@ class _LoginFormState extends State<LoginForm> {
         }
         if (state.isSubmitting) {
           ScaffoldMessenger.of(context)
-            ..showSnackBar(SnackBar(
+            .showSnackBar(SnackBar(
                 content: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   TextFormField(
-                    controller: _emailController,
+                    // controller: _emailController,
                     decoration: InputDecoration(
                         icon: Icon(Icons.email), labelText: 'Email'),
                     autovalidateMode: AutovalidateMode.always,
@@ -89,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
                     },
                   ),
                   TextFormField(
-                    controller: _passwordController,
+                    // controller: _passwordController,
                     decoration: InputDecoration(
                         icon: Icon(Icons.lock), labelText: 'Password'),
                     obscureText: true,
