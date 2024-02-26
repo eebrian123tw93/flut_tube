@@ -9,6 +9,7 @@ import 'package:auth_buttons/auth_buttons.dart' show GoogleAuthButton;
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
+
   LoginForm(this._userRepository, {super.key});
 
   @override
@@ -21,6 +22,7 @@ class _LoginFormState extends State<LoginForm> {
   late LoginBloc _loginBloc;
 
   UserRepository get _userRepository => widget._userRepository;
+
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
@@ -50,73 +52,77 @@ class _LoginFormState extends State<LoginForm> {
           ));
         }
         if (state.isSubmitting) {
-          ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(
-                content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('Logging In...'),
-                CircularProgressIndicator(),
-              ],
-            )));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text('Logging In...'),
+              CircularProgressIndicator(),
+            ],
+          )));
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
+          bloc: _loginBloc,
           builder: (BuildContext context, LoginState state) {
-        return Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.0),
-                    child: Image.asset(
-                      'assets/logo.png',
-                      height: 200,
-                    ),
-                  ),
-                  TextFormField(
-                    // controller: _emailController,
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.email), labelText: 'Email'),
-                    autovalidateMode: AutovalidateMode.always,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
-                  ),
-                  TextFormField(
-                    // controller: _passwordController,
-                    decoration: InputDecoration(
-                        icon: Icon(Icons.lock), labelText: 'Password'),
-                    obscureText: true,
-                    autovalidateMode: AutovalidateMode.always,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        LoginButton(isLoginButtonEnabled(state) ? _onFormSubmitted : null),
-                        GoogleAuthButton(
-                          onPressed: () =>
-                              _loginBloc.add(LoginWithGooglePressed()),
+            return Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Form(
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
+                        child: Image.asset(
+                          'assets/logo.png',
+                          height: 200,
                         ),
-                        CreateAccountButton(_userRepository)
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ));
-      }),
+                      ),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.email), labelText: 'Email'),
+                        autovalidateMode: AutovalidateMode.always,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isEmailValid ? 'Invalid Email' : null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.lock), labelText: 'Password'),
+                        obscureText: true,
+                        autovalidateMode: AutovalidateMode.always,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isPasswordValid
+                              ? 'Invalid Password'
+                              : null;
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            LoginButton(isLoginButtonEnabled(state)
+                                ? _onFormSubmitted
+                                : null),
+                            GoogleAuthButton(
+                              onPressed: () =>
+                                  _loginBloc.add(LoginWithGooglePressed()),
+                            ),
+                            CreateAccountButton(_userRepository)
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ));
+          }),
     );
   }
 
